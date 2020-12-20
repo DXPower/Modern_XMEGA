@@ -1,0 +1,13 @@
+The AVR toolchain (avr-gcc) must be installed to compile intermediate assembly files into binaries.
+This may work in WINE, not tested.
+
+You can use the atprogram-gui (https://github.com/RuggedScience/atprogram-gui) to program it *very* easily.
+This seems to be cross platform, but only tested in Windows.
+
+
+To build:
+1. Put .c and .cpp files into src/. (.s not yet done yet, but if you put them into build_files/ then it should detect them)
+2. Call `make compile` from Linux or WSL. You need Clang-10 installed.
+-- This will compile your code into intermediate AVR assembly. Then, it will strip out bits of Clang that aren't compatible with avr-gcc.
+3. Call `make bin` from Windows. You need the avr-gcc toolchain installed.
+4. Use atprogram-gui (or any other programmer) to program any of the binary files located in output_files/.
