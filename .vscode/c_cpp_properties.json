@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:\\Program Files (x86)\\Atmel\\Studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include"
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/avrstl/**"
             ],
             "defines": [
                 "_DEBUG",
