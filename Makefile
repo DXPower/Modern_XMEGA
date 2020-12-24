@@ -16,7 +16,7 @@ CXX_STD = -std=c++20
 DEPFLAGS = -MT $@ -MMD -MP -MF build_files/$*.d 
 
 COMPILE_INCLUDES = -I./include -I./avrstl
-COMPILE_FLAGS = -O3 -g2 --target=avr -mmcu=atxmega128a1u -Wall -funsigned-char -funsigned-bitfields -ffunction-sections -fdata-sections -fpack-struct -fshort-enums
+COMPILE_FLAGS = -O3 -g2 --target=avr -mmcu=atxmega128a1u -Wall -funsigned-char -funsigned-bitfields -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -fno-asynchronous-unwind-tables -fno-jump-tables 
 COMPILE_C_FLAGS = $(C_STD) -x c $(COMPILE_FLAGS)
 COMPILE_CXX_FLAGS = $(CXX_STD) -fno-rtti -stdlib=libc++ -D__MACH__ $(COMPILE_FLAGS)
 
@@ -47,6 +47,9 @@ DEPENDS := $(patsubst %.o,%.d,$(OBJ_FILES))
 	@echo Finished building: $<
 	@echo Cleaning incompatible AVR...
 	sed -i.bak -E "/(\.file\s\d*\s*".*"|\.loc|\.addrsig)/d" $@
+	@echo Fixing interrupts, adding global initialization
+	python3.7 tools/fix_interrupts.py $@
+	python3.7 tools/fix_global_inits.py $@
 	@echo Converted to Atmel AVR
 
 ./build_files/%.o: build_files/%.s
